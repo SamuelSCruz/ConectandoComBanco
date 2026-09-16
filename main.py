@@ -67,9 +67,11 @@ def consultar_todos_cliente():
         print(f"Idade: {idade}\n") # Printa idade todos os clientes cadastrados
 
     input("\nPressione ENTER para continuar...")
+    print("############################################################")
 
 def consultar_por_id():
-    os.system("cls")    
+    os.system("cls")
+    print("\n#################### Tela: Consultar por ID ####################")    
     id_cliente = int(input("-> Informe o ID do cliente: "))
     cursor.execute(""" 
         Select * From clientes
@@ -146,8 +148,10 @@ def deletar_cliente():
         time.sleep(3)
 #----------------------------------------------------------------------------------------------#
 
+
+#----------------------------------------------------------------------------------------------# Menu 
 while True:
-        os.system("cls")
+        os.system("cls") # Limpa terminal
         print("\n===== MENU =====")
         print("1 - Cadastrar")
         print("2 - Consultar")
@@ -161,26 +165,39 @@ while True:
                 cadastrar_cliente()
 
             case 2:
-                print("1 - Consultar todos")
-                print("2 - Consultar por ID")
-                menu = int(input("Informe uma opção: "))
+                os.system("cls")
+                while True:
+                        try:
+                            os.system("cls")
+                            print("1 - Consultar todos")
+                            print("2 - Consultar por ID")
+                            print("0 - Voltar menu")
+                            menu = int(input("Informe uma opção: "))
 
-                if menu == 1:
-                    consultar_todos_cliente()
+                            if menu == 1:
+                                consultar_todos_cliente()
+                            elif menu == 2:
+                                consultar_por_id()
+                            elif menu == 0:
+                                break
+                            else:
+                                print("Opção Inválida!")
+                                time.sleep(3)
+                                os.system("cls")   
 
-                elif menu == 2:
-                    consultar_por_id()
-
-                else:
-                    print("Opção Inválida!")        
+                        except ValueError:
+                            print("Informe números!")
+                            time.sleep(3)
+                            os.system("cls")             
 
             case 3:    
+                atualizar_cliente() 
+                
+            case 4:    
                 deletar_cliente()
 
-            case 4:    
-                atualizar_cliente() 
-
             case 0:
+                os.system("cls")
                 break
 
             case _:
