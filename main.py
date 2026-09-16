@@ -49,6 +49,7 @@ def cadastrar_cliente():
 
     print("-> Cliente cadastrado com sucesso!")
     print("#######################################################")
+    time.sleep(3)
 
 #----------------------------------------------------------------------------------------------#
 
@@ -135,8 +136,8 @@ def deletar_cliente():
 
     cursor.execute(""" 
         DELETE FROM clientes
-        Where = ?
-    """, (id_cliente))
+        Where id = ?
+    """, (id_cliente,))
 
     if cursor.rowcount > 0:
         conexao.commit() # Estamos atualizando no banco
@@ -151,14 +152,21 @@ def deletar_cliente():
 
 #----------------------------------------------------------------------------------------------# Menu 
 while True:
-        os.system("cls") # Limpa terminal
-        print("\n===== MENU =====")
-        print("1 - Cadastrar")
-        print("2 - Consultar")
-        print("3 - Atualizar")
-        print("4 - Deletar")
-        print("0 - Sair")
-        menu = int(input("Informe uma opção: "))
+        try:
+            os.system("cls") # Limpa terminal
+            print("\n===== MENU =====")
+            print("1 - Cadastrar")
+            print("2 - Consultar")
+            print("3 - Atualizar")
+            print("4 - Deletar")
+            print("0 - Sair")
+            menu = int(input("Informe uma opção: "))
+
+        except ValueError:
+            print("Informe números!")
+            time.sleep(3)
+            os.system("cls")
+            
 
         match menu:
             case 1: 
@@ -186,7 +194,7 @@ while True:
                                 os.system("cls")   
 
                         except ValueError:
-                            print("Informe números!")
+                            print("\n[ERRO]Informe números!")
                             time.sleep(3)
                             os.system("cls")             
 
@@ -201,7 +209,8 @@ while True:
                 break
 
             case _:
-                print("Opção inválida!")
+                print("Não tem essa opção no Menu!")
+                time.sleep(3)
 
 #----------------------------------------------------------------------------------------------# Fecha conexão como banco
 conexao.close() # Fecha a conexão com o banco de dados
