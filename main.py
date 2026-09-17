@@ -98,16 +98,16 @@ def consultar_por_id():
 
 
 #----------------------------------------------------------------------------------------------# Atualizar clientes
-def atualizar_cliente():
+def atualizar_cliente_nome():
     os.system("cls")
     id_cliente = int(input("Informe o ID do cliente que deseja alterar: "))
-    nova_idade = int(input("Informe nova idade: "))
+    novo_nome = int(input("Informe nova nome: "))
 
     cursor.execute(""" 
         UPDATE clientes 
-        SET idade = ?
+        SET nome = ?
         Where id = ?
-        """, (nova_idade, id_cliente))
+        """, (novo_nome, id_cliente))
 
     if cursor.rowcount > 0:
         conexao.commit() # Confirma e salva as informações no banco de dados as alterações que eu fiz
@@ -126,6 +126,64 @@ def atualizar_cliente():
     else:
         print("Cliente não encontrado!")
         time.sleep(3)
+
+def atualizar_cliente_email():
+    os.system("cls")
+    id_cliente = int(input("Informe o ID do cliente que deseja alterar: "))
+    novo_email = int(input("Informe nova email: "))
+
+    cursor.execute(""" 
+        UPDATE clientes 
+        SET idade = ?
+        Where id = ?
+        """, (novo_email, id_cliente))
+
+    if cursor.rowcount > 0:
+        conexao.commit() # Confirma e salva as informações no banco de dados as alterações que eu fiz
+        # É como se apertassemos o botão SALVAR
+        print("Atulizado com sucesso!")
+
+        # Consultar cliente com idade atualizada
+        cursor.execute(""" 
+            Select * From clientes
+            Where id = ?
+            """, (id_cliente,))
+        cliente = cursor.fetchone()
+        print(f"Clinte {cliente[1]}teve sua idade atualizada para {cliente[3]}")
+        time.sleep(3)
+
+    else:
+        print("Cliente não encontrado!")
+        time.sleep(3)
+
+def atualizar_cliente_idade():
+    os.system("cls")
+    id_cliente = int(input("Informe o ID do cliente que deseja alterar: "))
+    novo_idade = int(input("Informe nova idade: "))
+
+    cursor.execute(""" 
+        UPDATE clientes 
+        SET idade = ?
+        Where id = ?
+        """, (novo_idade, id_cliente))
+
+    if cursor.rowcount > 0:
+        conexao.commit() # Confirma e salva as informações no banco de dados as alterações que eu fiz
+        # É como se apertassemos o botão SALVAR
+        print("Atulizado com sucesso!")
+
+        # Consultar cliente com idade atualizada
+        cursor.execute(""" 
+            Select * From clientes
+            Where id = ?
+            """, (id_cliente,))
+        cliente = cursor.fetchone()
+        print(f"Clinte {cliente[1]}teve sua idade atualizada para {cliente[3]}")
+        time.sleep(3)
+
+    else:
+        print("Cliente não encontrado!")
+        time.sleep(3)        
 #----------------------------------------------------------------------------------------------#
 
 
