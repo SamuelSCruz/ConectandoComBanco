@@ -257,7 +257,7 @@ while True:
                             os.system("cls")             
 
             case 3:    
-                atualizar_cliente() 
+                atualizar_cliente_idade() 
                 
             case 4:    
                 deletar_cliente()
