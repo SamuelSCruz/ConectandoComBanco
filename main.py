@@ -34,7 +34,14 @@ print("Tabela criada com sucesso!")
 #----------------------------------------------------------------------------------------------# Cadastrar clientes
 def cadastrar_cliente():
     os.system("cls")
-    print("\n################## Tela: Cadastrar ##################")
+    print("+--------------------------------------+")
+    print("|          CADASTRAR CLIENTE           |")
+    print("+--------------------------------------+")
+    print("|                                      |")
+    print("|  Informe os dados do cliente:        |")
+    print("|                                      |")
+    print("+--------------------------------------+")
+    
     nome = input("Informe seu nome: ")
     email = input("Informe seu e-mail: ")
     idade = int(input("Informe sua idade: "))
@@ -47,45 +54,60 @@ def cadastrar_cliente():
     conexao.commit() # Confirma e salva as informações no banco de dados as alterações que eu fiz
     # É como se apertassemos o botão SALVAR
 
-    print("-> Cliente cadastrado com sucesso!")
-    print("#######################################################")
-    time.sleep(3)
 
+    print("- Cliente cadastrado com sucesso! -")
+    print(f"\nClinte:{nome} Email:{email} Idade:{idade}")
+
+    time.sleep(3)
 #----------------------------------------------------------------------------------------------#
 
 
 #----------------------------------------------------------------------------------------------# Consultar clientes
 def consultar_todos_cliente():   
     os.system("cls")
-    cursor.execute("""Select * From clientes""")
+
+    print("+--------------------------------------+")
+    print("|          CONSULTAR CLIENTES          |")
+    print("+--------------------------------------+")
+    print()
+
+    cursor.execute("""Select * From clientes""") # 
     clientes = cursor.fetchall() # Pega todos os registros encontrados pela consulta e põe em uma variável para ser exibidos
-
-    print("\n#################### Tela: Consultar ####################")
-    for id, nome, email, idade in clientes:
-        print(f"ID: {id}") # Printa id todos os clientes cadastrados
-        print(f"Nome: {nome}") # Printa nome todos os clientes cadastrados
-        print(f"E-mail: {email}") # Printa e-mail todos os clientes cadastrados
-        print(f"Idade: {idade}\n") # Printa idade todos os clientes cadastrados
-
-    input("\nPressione ENTER para continuar...")
-    print("############################################################")
+    for id, nome, email, idade in clientes: # Exiba todos os registros que foram armazenados
+        print("+--------------------------------------+")
+        print(f"| ID: {id:<34}|") # Coloque o conteúdo à esquerda e reserve 34 espaços para ele
+        print(f"| Nome: {nome:<32}|")
+        print(f"| E-mail: {email:<30}|")
+        print(f"| Idade: {idade:<32}|")
+        print("+--------------------------------------+")
+        print()
+    input("Pressione ENTER para continuar...") # Encerra e volta ao submenu
 
 def consultar_por_id():
     os.system("cls")
-    print("\n#################### Tela: Consultar por ID ####################")    
-    id_cliente = int(input("-> Informe o ID do cliente: "))
+    print("+--------------------------------------+")
+    print("|         CONSULTAR POR ID            |")
+    print("+--------------------------------------+")
+    print("|                                      |")
+    print("|  Consulte um cliente pelo seu ID.   |")
+    print("|                                      |")
+    print("+--------------------------------------+")   
+    id_cliente = int(input("Informe o ID do cliente: "))
+
     cursor.execute(""" 
         Select * From clientes
         Where id = ?
-        """, (id_cliente,))
+        """, (id_cliente,)) # A vírgula (id_cliente, <--) é chamada de TUPLA, é uma forma de guardar vários valores.
     cliente = cursor.fetchone() # Pega 1 registro pela consulta e põe em uma variável para ser exibidos
 
     if cliente: # Condicional para validar se cliente está cadastrado ou não
     #   print(cliente): Imprime os dados cadastrados em uma única linha
-        print(f"ID: {cliente[0]}")
-        print(f"Nome: {cliente[1]}")
-        print(f"Email: {cliente[2]}")
-        print(f"Idade: {cliente[3]}")
+        print("+--------------------------------------+")
+        print(f"|ID: {cliente[0]}|")
+        print(f"|Nome: {cliente[1]}|")
+        print(f"|Email: {cliente[2]}|")
+        print(f"|Idade: {cliente[3]}|")
+        print("+--------------------------------------+")
         time.sleep(3)
         
     else:
@@ -93,7 +115,6 @@ def consultar_por_id():
         time.sleep(3)
 
     clientes2 = cursor.fetchmany()# Pega alguns registros encontrados pela consulta e põe em uma variável para ser exibidos
-    print("############################################################")
 #----------------------------------------------------------------------------------------------#
 
 
@@ -212,12 +233,18 @@ def deletar_cliente():
 while True:
         try:
             os.system("cls") # Limpa terminal
-            print("\n===== MENU =====")
-            print("1 - Cadastrar")
-            print("2 - Consultar")
-            print("3 - Atualizar")
-            print("4 - Deletar")
-            print("0 - Sair")
+            print("+--------------------------------------+")
+            print("|          SISTEMA DE CLIENTES         |")
+            print("+--------------------------------------+")
+            print("|                                      |")
+            print("|  1 - Cadastrar cliente               |")
+            print("|  2 - Consultar cliente               |")
+            print("|  3 - Atualizar cliente               |")
+            print("|  4 - Deletar cliente                 |")
+            print("|                                      |")
+            print("|  0 - Sair                            |")
+            print("|                                      |")
+            print("+--------------------------------------+")
             menu = int(input("Informe uma opção: "))
 
         except ValueError:
@@ -235,9 +262,16 @@ while True:
                 while True:
                         try:
                             os.system("cls")
-                            print("1 - Consultar todos")
-                            print("2 - Consultar por ID")
-                            print("0 - Voltar menu")
+                            print("+--------------------------------------+")
+                            print("|          CONSULTAR CLIENTE           |")
+                            print("+--------------------------------------+")
+                            print("|                                      |")
+                            print("|  1 - Consultar todos                 |")
+                            print("|  2 - Consultar por ID                |")
+                            print("|                                      |")
+                            print("|  0 - Voltar                          |")
+                            print("|                                      |")
+                            print("+--------------------------------------+")
                             menu = int(input("Informe uma opção: "))
 
                             if menu == 1:
