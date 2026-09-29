@@ -72,7 +72,7 @@ def consultar_todos_cliente():
     print()
 
     cursor.execute("""Select * From clientes""") # 
-    clientes = cursor.fetchall() # Pega todos os registros encontrados pela consulta e põe em uma variável para ser exibidos
+    clientes = cursor.fetchall() # Pega todos os registros encontrados pela consulta e põe em uma variável para ser exibidos / fetch: pegar ou trazer all: todo ou tudo
     for id, nome, email, idade in clientes: # Exiba todos os registros que foram armazenados
         print("+--------------------------------------+")
         print(f"| ID: {id:<34}|") # Coloque o conteúdo à esquerda e reserve 34 espaços para ele
@@ -119,7 +119,7 @@ def consultar_por_id():
 
 
 #----------------------------------------------------------------------------------------------# Atualizar clientes
-def atualizar_cliente_nome():
+def atualizar_cliente_nome(): 
     os.system("cls")
     id_cliente = int(input("Informe o ID do cliente que deseja alterar: "))
     novo_nome = int(input("Informe nova nome: "))
@@ -141,12 +141,13 @@ def atualizar_cliente_nome():
             Where id = ?
             """, (id_cliente,))
         cliente = cursor.fetchone()
-        print(f"Clinte {cliente[1]}teve sua idade atualizada para {cliente[3]}")
+        print(f"Clinte {cliente[1]} teve sua idade atualizada para {cliente[3]}")
         time.sleep(3)
 
     else:
         print("Cliente não encontrado!")
         time.sleep(3)
+
 
 def atualizar_cliente_email():
     os.system("cls")
@@ -170,12 +171,13 @@ def atualizar_cliente_email():
             Where id = ?
             """, (id_cliente,))
         cliente = cursor.fetchone()
-        print(f"Clinte {cliente[1]}teve sua idade atualizada para {cliente[3]}")
+        print(f"Clinte {cliente[1]} teve sua idade atualizada para {cliente[3]}")
         time.sleep(3)
 
     else:
         print("Cliente não encontrado!")
         time.sleep(3)
+
 
 def atualizar_cliente_idade():
     os.system("cls")
@@ -199,7 +201,7 @@ def atualizar_cliente_idade():
             Where id = ?
             """, (id_cliente,))
         cliente = cursor.fetchone()
-        print(f"Clinte {cliente[1]}teve sua idade atualizada para {cliente[3]}")
+        print(f"Clinte {cliente[1]} teve sua idade atualizada para {cliente[3]}")
         time.sleep(3)
 
     else:
@@ -290,8 +292,40 @@ while True:
                             time.sleep(3)
                             os.system("cls")             
 
-            case 3:    
-                atualizar_cliente_idade() 
+            case 3: # Submenu para atualizar cliente
+                while True: # laço para manter o submenu ativo    
+                            os.system("cls")
+                            print("+--------------------------------------+")
+                            print("|          ATUALIZAR CLIENTE           |")
+                            print("+--------------------------------------+")
+                            print("|                                      |")
+                            print("|  1 - Atualizar nome                  |")
+                            print("|  2 - Atualizar e-mail                |")
+                            print("|  3 - Atualizar idade                 |")
+                            print("|                                      |")
+                            print("|  0 - Voltar                          |")
+                            print("|                                      |")
+                            print("+--------------------------------------+")
+                            menu = int(input("Informe uma opção: "))
+
+                            # Condicional para escolher qual dado deseja alterar
+                            if menu == 1:
+                                atualizar_cliente_nome() # Função para atualizar nome do cliente
+
+                            elif menu == 2:
+                                atualizar_cliente_email() # Função para atualizar e-mail do cliente
+
+                            elif menu == 3:
+                                atualizar_cliente_idade() # Função para atualizar idade do cliente
+
+                            elif menu == 0:
+                                break
+                            
+                            else:
+                                print("Opção Inválida!")
+                                time.sleep(3)
+                                os.system("cls") 
+
                 
             case 4:    
                 deletar_cliente()
