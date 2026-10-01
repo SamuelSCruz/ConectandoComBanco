@@ -15,7 +15,7 @@ cursor.execute("""
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         preco REAL NOT NULL,
-        quantidade INTERGER NOT NULL
+        quantidade INTEGER NOT NULL
 )""") 
 conexao.commit() # Salva as informações, funciona com um SAVE
 print("Tabela criada!")
@@ -23,18 +23,41 @@ print("Tabela criada!")
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- Funções
-def cad_produto():
+#----------------------------------------------------------------------- CADASTRAR
+def cadastrar_produto():
   print("+---------------------------+")  
   print("|   CADASTRO DE PRODUTOS    |")  
   print("+---------------------------+")
+  
   nome = input("Infome nome do produto: ")  
   preco = float(input("Infome preço do produto: "))  
   qtd = int(input("Infome quantidade do produto: "))  
-  print(f"\nPronduto: {nome} Preço: {preco} Quantidade: {qtd}")
+
+  cursor.execute(""" 
+        INSERT INTO produtos (nome, preco, quantidade)
+        VALUES (?,?,?)       
+  """, (nome, preco, qtd))
+
+  conexao.commit()
+
+#----------------------------------------------------------------------- LISTAR
+def listar_produto():
+  print("+---------------------------+")  
+  print("|   CONSULTA DE PRODUTOS    |")  
+  print("+---------------------------+")
+
+  cursor.execute(""" Select * from produtos """)
+  produtos = cursor.fetchall()
+
+  for id, nome, preco, qtd in produtos:
+    print(f"ID: {id} | Produto: {nome} | Preco: {preco} | Quantidade: {qtd}")
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- Mostra as funções
+cadastrar_produto()
+listar_produto()
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
-cad_produto()
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- Fecha conexão com banco de dados
 conexao.close() # Fecha a conexão com o banco
