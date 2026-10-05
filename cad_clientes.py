@@ -124,13 +124,14 @@ def atualizar_cliente_nome():
     id_cliente = int(input("Informe o ID do cliente que deseja alterar: "))
     novo_nome = int(input("Informe nova nome: "))
 
+    # Atualizando (nome) do cliente.
     cursor.execute(""" 
         UPDATE clientes 
         SET nome = ?
         Where id = ?
         """, (novo_nome, id_cliente))
 
-    if cursor.rowcount > 0:
+    if cursor.rowcount > 0: # Se existir linha salve e informe que foi alterado  
         conexao.commit() # Confirma e salva as informações no banco de dados as alterações que eu fiz
         # É como se apertassemos o botão SALVAR
         print("Atulizado com sucesso!")
@@ -144,7 +145,7 @@ def atualizar_cliente_nome():
         print(f"Clinte {cliente[1]} teve sua idade atualizada para {cliente[3]}")
         time.sleep(3)
 
-    else:
+    else: # Se não existir a linha, cliente não encontrado.
         print("Cliente não encontrado!")
         time.sleep(3)
 

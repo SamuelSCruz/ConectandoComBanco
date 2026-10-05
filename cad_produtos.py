@@ -47,8 +47,9 @@ def cadastrar_produto():
   print("\nProduto cadastrado com sucesso!")
   time.sleep(3)
   os.system("cls")
+
 #----------------------------------------------------------------------- LISTAR
-def listar_produto():
+def listar_todos_produto():
   print("+---------------------------+")  
   print("|   CONSULTA DE PRODUTOS    |")  
   print("+---------------------------+")
@@ -61,19 +62,65 @@ def listar_produto():
   input("\nPress [ENTER] para retornar!")
   os.system("cls")
 
+#----------------------------------------------------------------------- ATUALIZAR
+def atualizar_produto():
+  print("+----------------------------+")  
+  print("|   ATUALIZAR DE PRODUTOS    |")  
+  print("+----------------------------+")
+  id_produto = int(input("Informe ID que deseja alterar nome: "))
+  novo_nome = input("Informe novo nome: ")
+
+  cursor.execute(""" 
+  UPDATE produtos
+  SET nome = ?
+  WHERE id = ?
+  """, (novo_nome, id_produto))
+  conexao.commit() # Salva as informações
+
+  print("\nNome atualizado!")
+  time.sleep(3)
+  os.system("cls")
+
+#----------------------------------------------------------------------- DELETAR
+def deletar_produto():
+  while True:
+    print("+----------------------------+")  
+    print("|    DELETAR DE PRODUTOS     |")  
+    print("+----------------------------+")
+    id_produto = int(input("Informe ID que deseja deletar: "))
+
+    cursor.execute("""
+    DELETE FROM produtos
+    WHERE id = ?
+    """, (id_produto,))
+
+
+    if cursor.rowcount > 0:
+      print("\nProduto deletado!")
+      conexao.commit() # Salva as informações
+      break
+
+    else:
+      print("\nProduto não encontrado!")
+  
+  time.sleep(3)
+  os.system("cls")
+
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- Mostra as funções
-while True:
-  try:  
+while True: # Loop para permanecer no MENU até que o usuário queira sair (0)
+  try: # Tratamento de exceção: Permite apenas que o usuário informe números, tratando este erro.
       print("+---------------------------+")  
       print("|           MENU            |")  
       print("+---------------------------+")  
       print("|1 - Cadastrar              |")  
       print("|2 - Listar                 |")    
+      print("|3 - Atualizar              |")    
+      print("|4 - Deletar                |")    
       print("|0 - Sair                   |")    
       print("+---------------------------+")
       menu = int(input("Iforme opção: "))
   
-  except ValueError:
+  except ValueError: # Retorno um aviso ao usuário informando que só é permitido números
     print("[ERRO] Informe apenas números!")
 
   match menu:
@@ -83,7 +130,15 @@ while True:
   
       case 2:
         os.system("cls")
-        listar_produto()
+        listar_todos_produto()
+      
+      case 3:
+        os.system("cls")
+        atualizar_produto()
+      
+      case 4:
+        os.system("cls")
+        deletar_produto()
 
       case 0:
        os.system("cls")
@@ -92,7 +147,6 @@ while True:
       case _:
        os.system("cls")
        print("Não tem essa opção!")
-
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
