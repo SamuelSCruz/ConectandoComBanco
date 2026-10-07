@@ -22,7 +22,7 @@ cursor.execute("""
 )""") 
 conexao.commit() # Salva as informações, funciona com um SAVE
 print("Tabela criada!")
-time.sleep(3)
+time.sleep(1)
 os.system("cls")
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ os.system("cls")
 #=============================================================================== CADASTRAR
 def cadastrar_produto():
   print("+---------------------------+")  
-  print("|   CADASTRO DE PRODUTOS    |")  
+  print("|    CADASTRAR PRODUTOS     |")  
   print("+---------------------------+")
   
   nome = input("Infome nome do produto: ")  
@@ -52,7 +52,7 @@ def cadastrar_produto():
 #=============================================================================== LISTAR
 def listar_todos_produto():
   print("+---------------------------+")  
-  print("|   CONSULTA DE PRODUTOS    |")  
+  print("|    CONSULTAR PRODUTOS     |")  
   print("+---------------------------+")
 
   cursor.execute(""" Select * from produtos """)
@@ -67,7 +67,7 @@ def listar_todos_produto():
 #=============================================================================== ATUALIZAR
 def atualizar_produto():
   print("+----------------------------+")  
-  print("|   ATUALIZAR DE PRODUTOS    |")  
+  print("|     ATUALIZAR PRODUTOS     |")  
   print("+----------------------------+")
   id_produto = int(input("Informe ID que deseja alterar nome: "))
   novo_nome = input("Informe novo nome: ")
@@ -86,75 +86,117 @@ def atualizar_produto():
 
 #=============================================================================== DELETAR
 def deletar_produto():
-  while True:
-    print("+----------------------------+")  
-    print("|    DELETAR DE PRODUTOS     |")  
-    print("+----------------------------+")
-    id_produto = int(input("Informe ID que deseja deletar: "))
+  while True: # Loop para o menu
+          try: # Tratamento de exceções 
+              print("+----------------------------+")  
+              print("|      DELETAR PRODUTOS      |")  
+              print("+----------------------------+")
+              id_produto = int(input("Informe ID que deseja deletar: "))
 
-    cursor.execute("""
-    DELETE FROM produtos
-    WHERE id = ?
-    """, (id_produto,))
+          except ValueError: # Trata erros, neste caso, usário deverá informar apenas números
+            print("[ERRO] Informe apenas números!") # Imprime o erro
+            time.sleep(3) 
+            os.system("cls")  
+            continue # Avança todo o restante do código e retorna para o loop, sem ele o código avançaria para a o primeiro if e não seria tratado
+   
+          cursor.execute(""" 
+          Select * From produtos
+          Where id = ?
+          """, (id_produto,)) # A vírgula (id_cliente, <--) é chamada de TUPLA, é uma forma de guardar vários valores.
+          produto = cursor.fetchone() # Pega 1 registro pela consulta e põe em uma variável para ser exibidos
 
+          if produto: # Condicional que valida o produto cadastrado
+              print(f"ID: {produto[0]} | Produto: {produto[1]} | Preco: {produto[2]} | Quantidade: {produto[3]}") # Impressão do produto informado
+              condicao = input("ID encontrado! Deseja realmente deletar este ID? (y/n): ")   
 
-    if cursor.rowcount > 0:
-      print("\nProduto deletado!")
-      conexao.commit() # Salva as informações
-      break
+              match condicao.strip().lower() : # Escolhas para cada caso
+                case "y": # Caso escolha (y), produto será deletado.
+                  cursor.execute("""
+                  DELETE FROM produtos
+                  WHERE id = ?
+                  """, (id_produto,))
+                  
+                  print("\nProduto deletado!")
+                  conexao.commit() # Salva as informações
+                  time.sleep(1)
+                  os.system("cls") 
+                  break
 
-    else:
-      print("\nProduto não encontrado!")
-      time.sleep(3)
-      os.system("cls")
-  
-  time.sleep(3)
-  os.system("cls")
+                case "n": # Caso escolha (n), imprime ao usuário se ele deseja informar outro ID, se não voltará ao menu principal
+                  condicao2 = input("\nDeseja informar outro ID? (y/n): ")
+
+                  if condicao2.strip().lower() == "y":
+                    print("Voltando...")  
+                    time.sleep(1)
+                    os.system("cls")
+                  
+                  elif condicao2.strip().lower() == "n":
+                    print("Saindo...")  
+                    time.sleep(3)
+                    os.system("cls")        
+                    break
+                  
+                  else:
+                    print("\nInforme uma opção válida!")
+                    time.sleep(3)
+                    os.system("cls")  
+                  
+                case _:
+                  print("Não tem essa opção no Menu!")
+                  time.sleep(3)
+                  
+          else: # Condicial que imprime que produto não estar cadastrado.
+            print("\nProduto não encontrado!")
+            time.sleep(1)
+            os.system("cls")
 #=============================================================================== 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- Mostra as funções
 while True: # Loop para permanecer no MENU até que o usuário queira sair (0)
-  try: # Tratamento de exceção: Permite apenas que o usuário informe números, tratando este erro.
-      print("+---------------------------+")  
-      print("|           MENU            |")  
-      print("+---------------------------+")  
-      print("|1 - Cadastrar              |")  
-      print("|2 - Listar                 |")    
-      print("|3 - Atualizar              |")    
-      print("|4 - Deletar                |")    
-      print("|0 - Sair                   |")    
-      print("+---------------------------+")
-      menu = int(input("Iforme opção: "))
-  
-  except ValueError: # Retorno um aviso ao usuário informando que só é permitido números
-    print("[ERRO] Informe apenas números!")
+        try: # Tratamento de exceção: Permite apenas que o usuário informe números, tratando este erro.
+            print("+---------------------------+")  
+            print("|           MENU            |")  
+            print("+---------------------------+")  
+            print("|1 - Cadastrar              |")  
+            print("|2 - Listar                 |")    
+            print("|3 - Atualizar              |")    
+            print("|4 - Deletar                |")    
+            print("|0 - Sair                   |")    
+            print("+---------------------------+")
+            menu = int(input("Iforme opção: "))
+        
+        except ValueError: # Retorno um aviso ao usuário informando que só é permitido números
+          print("[ERRO] Informe apenas números!")
+          time.sleep(3)
+          os.system("cls")  
 
-  match menu:
-      case 1:
-        os.system("cls")
-        cadastrar_produto()
-  
-      case 2:
-        os.system("cls")
-        listar_todos_produto()
-      
-      case 3:
-        os.system("cls")
-        atualizar_produto()
-      
-      case 4:
-        os.system("cls")
-        deletar_produto()
+          
+        match menu:
+            case 1:
+              os.system("cls")
+              cadastrar_produto()
+        
+            case 2:
+              os.system("cls")
+              listar_todos_produto()
+            
+            case 3:
+              os.system("cls")
+              atualizar_produto()
+            
+            case 4:
+              os.system("cls")
+              deletar_produto()
 
-      case 0:
-       os.system("cls")
-       break
+            case 0:
+              os.system("cls")
+              break
 
-      case _:
-       os.system("cls")
-       print("Não tem essa opção!")
+            case _:
+              os.system("cls")
+              print("Não tem essa opção!")
+     
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- Fecha conexão com banco de dados

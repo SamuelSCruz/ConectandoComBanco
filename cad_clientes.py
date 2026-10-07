@@ -101,7 +101,6 @@ def consultar_por_id():
     cliente = cursor.fetchone() # Pega 1 registro pela consulta e põe em uma variável para ser exibidos
 
     if cliente: # Condicional para validar se cliente está cadastrado ou não
-    #   print(cliente): Imprime os dados cadastrados em uma única linha
         print("+--------------------------------------+")
         print(f"|ID: {cliente[0]}|")
         print(f"|Nome: {cliente[1]}|")
