@@ -82,6 +82,7 @@ def atualizar_produto():
         try:
             print("+----------------------------+")
             print("|     ATUALIZAR PRODUTOS     |")
+            print("|0 - Sair                    |")
             print("+----------------------------+")
             id_produto = int(input("Informe ID que deseja alterar: "))
 
@@ -141,7 +142,7 @@ def atualizar_produto():
                                     print("Produto não encontrado!")
 
                             case 2:
-                                novo_preco = input("Informe o novo preço: ")
+                                novo_preco = float(input("Informe o novo preço: "))
                                 cursor.execute(
                                     """ Update produtos 
                                             SET preco = ?
@@ -157,7 +158,7 @@ def atualizar_produto():
                                     print("Produto não encontrado!")
 
                             case 3:
-                                novo_qtd = input("Informe o nova quantidade: ")
+                                novo_qtd = int(input("Informe o nova quantidade: "))
                                 cursor.execute(
                                     """ Update produtos 
                                             SET quantidade = ?
@@ -171,6 +172,15 @@ def atualizar_produto():
 
                                 else:
                                     print("Produto não encontrado!")
+                                    
+                            
+                            case 0:
+                                print("Voltando...")
+                                time.sleep(3)
+                                os.system("cls")
+                                break
+                                
+                                
                 case "n":
 
                     condicao2 = input("\nDeseja informar outro ID? (y/n): ")
@@ -196,7 +206,7 @@ def atualizar_produto():
                     time.sleep(3)
 
         else:
-            print("Produto não exite!")
+            print("Produto não existe!")
             time.sleep(3)
             os.system("cls")
 
