@@ -78,25 +78,127 @@ def listar_todos_produto():
 
 # =============================================================================== ATUALIZAR
 def atualizar_produto():
-    print("+----------------------------+")
-    print("|     ATUALIZAR PRODUTOS     |")
-    print("+----------------------------+")
-    id_produto = int(input("Informe ID que deseja alterar nome: "))
-    novo_nome = input("Informe novo nome: ")
+    while True:
+        try:
+            print("+----------------------------+")
+            print("|     ATUALIZAR PRODUTOS     |")
+            print("+----------------------------+")
+            id_produto = int(input("Informe ID que deseja alterar: "))
 
-    cursor.execute(
-        """ 
-  UPDATE produtos
-  SET nome = ?
-  WHERE id = ?
-  """,
-        (novo_nome, id_produto),
-    )
-    conexao.commit()  # Salva as informações
+        except ValueError:
+            print("[ERRO] Informe apenas números!")
+            time.sleep(3)
+            os.system("cls")
+            continue
 
-    print("\nNome atualizado!")
-    time.sleep(3)
-    os.system("cls")
+        cursor.execute(
+            """ Select * from produtos
+        where ID = ?
+        """,
+            (id_produto,),
+        )
+        produto = cursor.fetchone()
+
+        if produto:
+            print(
+                f"ID: {produto[0]} NOME: {produto[1]} PRECO: {produto[2]} QUANTIDADE: {produto[3]}"
+            )
+            condicao = input("ID encontrado! Deseja realmente alterar este ID? (y/n): ")
+
+            match condicao.strip().lower():
+                case "y":
+                    while True:
+                        try:
+                            print("+---------------------------+")
+                            print("|1 - NOME                   |")
+                            print("|2 - PREÇO                  |")
+                            print("|3 - QUANTIDADE             |")
+                            print("|0 - Sair                   |")
+                            print("+---------------------------+")
+                            alterar = int(input("\nInforme o que deseja alterar: "))
+
+                        except ValueError:
+                            print("[ERRO] Informe apenas números!")
+                            time.sleep(3)
+                            os.system("cls")
+                            continue
+
+                        match alterar:
+                            case 1:
+                                novo_nome = input("Informe o novo nome: ")
+                                cursor.execute(
+                                    """ Update produtos 
+                                            SET nome = ?
+                                            Where id = ?""",
+                                    (novo_nome, id_produto),
+                                )
+
+                                if cursor.rowcount > 0:
+                                    conexao.commit()
+                                    print("Atualizado com sucesso!")
+
+                                else:
+                                    print("Produto não encontrado!")
+
+                            case 2:
+                                novo_preco = input("Informe o novo preço: ")
+                                cursor.execute(
+                                    """ Update produtos 
+                                            SET preco = ?
+                                            Where id = ?""",
+                                    (novo_preco, id_produto),
+                                )
+
+                                if cursor.rowcount > 0:
+                                    conexao.commit()
+                                    print("Atualizado com sucesso!")
+
+                                else:
+                                    print("Produto não encontrado!")
+
+                            case 3:
+                                novo_qtd = input("Informe o nova quantidade: ")
+                                cursor.execute(
+                                    """ Update produtos 
+                                            SET quantidade = ?
+                                            Where id = ?""",
+                                    (novo_qtd, id_produto),
+                                )
+
+                                if cursor.rowcount > 0:
+                                    conexao.commit()
+                                    print("Atualizado com sucesso!")
+
+                                else:
+                                    print("Produto não encontrado!")
+                case "n":
+
+                    condicao2 = input("\nDeseja informar outro ID? (y/n): ")
+
+                    if condicao2.strip().lower() == "y":
+                        print("Voltando...")
+                        time.sleep(3)
+                        os.system("cls")
+
+                    elif condicao2.strip().lower() == "n":
+                        print("Saindo...")
+                        time.sleep(3)
+                        os.system("cls")
+                        break
+
+                    else:
+                        print("\nInforme uma opção válida!")
+                        time.sleep(3)
+                        os.system("cls")
+
+                case _:
+                    print("Não tem essa opção no Menu!")
+                    time.sleep(3)
+
+        else:
+            print("Produto não exite!")
+            time.sleep(3)
+            os.system("cls")
 
 
 # ===============================================================================
