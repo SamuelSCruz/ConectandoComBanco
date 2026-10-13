@@ -68,7 +68,7 @@ def listar_todos_produto():
     produtos = cursor.fetchall()
 
     for id, nome, preco, qtd in produtos:
-        print(f"ID: {id} | Produto: {nome} | Preco: {preco} | Quantidade: {qtd}")
+        print(f"|ID: {id:<8}| | Produto: {nome:<8}| | Preco: {preco:<10}| | Quantidade: {qtd:<8}|")
     input("\nPress [ENTER] para retornar!")
     os.system("cls")
 
@@ -82,7 +82,6 @@ def atualizar_produto():
         try:
             print("+----------------------------+")
             print("|     ATUALIZAR PRODUTOS     |")
-            print("|0 - Sair                    |")
             print("+----------------------------+")
             id_produto = int(input("Informe ID que deseja alterar: "))
 
@@ -102,7 +101,7 @@ def atualizar_produto():
 
         if produto:
             print(
-                f"ID: {produto[0]} NOME: {produto[1]} PRECO: {produto[2]} QUANTIDADE: {produto[3]}"
+                 f"ID: {produto[0]:<30} | Produto: {produto[1]:<32} | Preco: {produto[2]:<32} | Quantidade: {produto[3]:<30}"
             )
             condicao = input("ID encontrado! Deseja realmente alterar este ID? (y/n): ")
 
@@ -110,7 +109,7 @@ def atualizar_produto():
                 case "y":
                     while True:
                         try:
-                            print("+---------------------------+")
+                            print("\n+---------------------------+")
                             print("|1 - NOME                   |")
                             print("|2 - PREÇO                  |")
                             print("|3 - QUANTIDADE             |")
@@ -244,7 +243,7 @@ def deletar_produto():
 
         if produto:  # Condicional que valida o produto cadastrado
             print(
-                f"ID: {produto[0]} | Produto: {produto[1]} | Preco: {produto[2]} | Quantidade: {produto[3]}"
+                f"ID: {produto[0]:<30} | Produto: {produto[1]:<32} | Preco: {produto[2]:<32} | Quantidade: {produto[3]:<30}"
             )  # Impressão do produto informado
             condicao = input("ID encontrado! Deseja realmente deletar este ID? (y/n): ")
 
@@ -343,6 +342,8 @@ while True:  # Loop para permanecer no MENU até que o usuário queira sair (0)
         case _:
             os.system("cls")
             print("Não tem essa opção!")
+            time.sleep(1)
+            os.system("cls")
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
