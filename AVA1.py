@@ -1,41 +1,41 @@
-import locale # Módulo nativo para formatação de padrões de um país
+# 1. Função de Leitura (Apenas lê e retorna o valor)
+def ler_temperatura():
+    temperatura = float(input("Informe a temperatura atual do ambiente (°C): "))
+    return temperatura
 
-def calculo_folha():
+
+# 2. Função de Processamento (Analisa e retorna um "status" ou "mensagem")
+def analisar_temperatura(temp_atual):
+    # Definindo os limites do sistema embarcado
+    limite_minimo = 18.0
+    limite_maximo = 26.0
     
-    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8') # Define a configuração regional para BR
+    # Lógica condicional para definir a ação
+    if temp_atual < limite_minimo:
+        return "Aquecendo..."
+    elif temp_atual > limite_maximo:
+        return "Resfriando..."
+    else:
+        return "Temperatura estável."
 
-    nome_funcinario = input("Informe seu nome: ")
-    horas_trabalhadas_semana = int(input("Informe horas trbalhadas na semana: "))
-    horas_trabalhadas_normais = int(input("Informe suas horas normais da semana: "))
-    valor_hora_normal = float(input("Informe valor da hora normal: "))
+
+# 3. Função de Exibição (Apenas mostra o resultado final)
+def exibir_resultado(mensagem_acao):
+    print("\n[STATUS DO SISTEMA]")
+    print(mensagem_acao)
+
+
+# --- FUNÇÃO PRINCIPAL (Gerencia o fluxo do programa) ---
+def main():
+    # Passo 1: Lê a temperatura e guarda o valor retornado
+    temp = ler_temperatura()
     
-    print(f"\nNome do funcionário: {nome_funcinario} Horas trabalhadas na semana: {horas_trabalhadas_semana} Valor do horário: {valor_hora_normal}")
+    # Passo 2: Passa a temperatura para análise e guarda a resposta
+    resultado = analisar_temperatura(temp)
     
-    if horas_trabalhadas_semana > horas_trabalhadas_normais:
-        print(f"[COMUNICADO] Seu horário ultrapassou às {horas_trabalhadas_normais} horas semanais adicional de 50%")
-        
-        calculo_horas_normais = horas_trabalhadas_normais * valor_hora_normal      
-        horas_extras_trabalhadas = horas_trabalhadas_semana - horas_trabalhadas_normais
-        horas_extras_com_adicional = valor_hora_normal * 1.5
-        pagamento_horas_extras = horas_extras_trabalhadas * horas_extras_com_adicional
-        salario_semana_total = calculo_horas_normais + pagamento_horas_extras
-                  
-        calculo_horas_normais_formatado = locale.currency(calculo_horas_normais, grouping=True) # Formata o valor como moeda
-        horas_extras_com_adicional_formatado = locale.currency(horas_extras_com_adicional, grouping=True) 
-        pagamento_horas_extras_formatado = locale.currency(pagamento_horas_extras, grouping=True)
-        salario_semana_total_formatado = locale.currency(salario_semana_total, grouping=True)
-        
-        print(f"\nCalculo de horas normais: R$ {calculo_horas_normais_formatado}")
-        print(f"Horas extras trabalhadas: {horas_extras_trabalhadas}")
-        print(f"Horas extras com adicional de 50%: {horas_extras_com_adicional_formatado}")
-        print(f"Valor das horas extras: R$ {pagamento_horas_extras_formatado}")
-        print(f"Salário semanal total: R$ {salario_semana_total_formatado}")
-        
-    elif horas_trabalhadas_semana < horas_trabalhadas_normais:
-        print("[COMUNICADO] Seu horário foi abaixo do horário semanal")
+    # Passo 3: Passa a resposta para ser exibida na tela
+    exibir_resultado(resultado)
 
-        
 
-calculo_folha()        
-
-     
+# Executa o programa
+main()
